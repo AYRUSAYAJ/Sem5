@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split, cross_val_score, KFold ,St
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 
-
 df = pd.read_csv("../diabetes.csv")
 
 X = df.drop('Outcome', axis=1)

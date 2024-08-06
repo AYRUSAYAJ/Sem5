@@ -159,7 +159,7 @@
         </header>
         <main>
             <h2>Cart</h2>
-            <table>
+            <table id="cart">
                 <thead>
                     <tr>
                         <th>Book</th>
@@ -169,52 +169,89 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Book 1</td>
-                        <td>Rs10</td>
-                        <td>1</td>
-                        <td><button class="remove-btn" onclick="removeItem(this)">Remove</button></td>
-                    </tr>
-                    <tr>
-                        <td>Book 2</td>
-                        <td>Rs15</td>
-                        <td>2</td>
-                        <td><button class="remove-btn" onclick="removeItem(this)">Remove</button></td>
-                    </tr>
-                    <tr>
-                        <td>Book 3</td>
-                        <td>Rs20</td>
-                        <td>1</td>
-                        <td><button class="remove-btn" onclick="removeItem(this)">Remove</button></td>
-                    </tr>
+
                 </tbody>
             </table>
             <div class="cart-summary">
-                <p>Total: Rs60</p>
-                <button class="checkout-btn">Checkout</button>
+                <div id="total-price">Total Price: Rs0</div>
+                <p></p>
+                <button class="checkout-btn">Buy Now</button>
             </div>
         </main>
     </div>
 
     <script>
-        function removeItem(button) {
-           
+function populateCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || {};
+            const cartTable = document.getElementById("cart").getElementsByTagName('tbody')[0];
+            cartTable.innerHTML ="";
+            let totalPrice = 0;
+            
+            for (let bookTitle in cart) {
+                const row = document.createElement('tr');
+
+                const titleCell = document.createElement('td');
+                titleCell.textContent = bookTitle;
+                row.appendChild(titleCell);
+
+                const priceCell = document.createElement('td');
+                priceCell.textContent = `Rs${cart[bookTitle].price}`;
+                row.appendChild(priceCell);
+
+                const quantityCell = document.createElement('td');
+                quantityCell.textContent = cart[bookTitle].quantity;
+                row.appendChild(quantityCell);
+
+                const actionCell = document.createElement('td');
+                const button = document.createElement('button');
+                button.className = 'remove-btn';
+                button.textContent = 'Remove';
+                button.onclick = () => {
+                    removeItem(button, bookTitle, quantityCell);
+                };
+                actionCell.appendChild(button);
+                row.appendChild(actionCell);
+
+                cartTable.appendChild(row);
+
+                totalPrice += cart[bookTitle].price * cart[bookTitle].quantity;
+            }
+
+            document.getElementById('total-price').textContent = `Total Price: Rs${totalPrice}`;
+        }
+
+        function removeItem(button, bookTitle, quantityCell) {
             var spinner = document.createElement('div');
             spinner.className = 'loading-spinner';
-            button.disabled = true; 
-            button.appendChild(spinner); 
+            button.disabled = true;
+            button.appendChild(spinner);
 
-           
             setTimeout(function() {
-               
-                var row = button.closest('tr');
-                row.parentNode.removeChild(row);
+                var cart = JSON.parse(localStorage.getItem('cart')) || {};
+                if (cart[bookTitle]) {
+                    cart[bookTitle].quantity -= 1;
+                    if (cart[bookTitle].quantity <= 0) {
+                        delete cart[bookTitle];
+                    } else {
+                        quantityCell.textContent = cart[bookTitle].quantity;
+                    }
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
 
-              
+                if (!cart[bookTitle]) {
+                    var row = button.closest('tr');
+                    row.parentNode.removeChild(row);
+                }
+
+                populateCart();
+
                 button.disabled = false;
                 button.removeChild(spinner);
             }, 1000);
         }
+
+        populateCart();
+
     </script>
 </body>
 </html>

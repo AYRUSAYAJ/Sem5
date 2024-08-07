@@ -152,7 +152,7 @@ main h2 {
         </main>
     </div>
     <script>
-        const books = [
+        let books = JSON.parse(localStorage.getItem('books')) || [
             { title: "Book 1", price: 10 },
             { title: "Book 2", price: 15 },
             { title: "Book 3", price: 20 }

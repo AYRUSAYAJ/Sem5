@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>catlog - College Bookstore</title>
+    <style>
+ body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('wallpaper.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed; 
+            background-position: center;
+        }
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    color: #333;
+    font-size: 2em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #e7f0ff;
+    border-color: #007BFF;
+}
+
+main {
+    text-align: center;
+}
+
+main h2 {
+    margin-top: 0;
+    color: #555;
+    font-size: 1.5em;
+}
+
+
+    table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+
+        .upd-btn {
+            padding: 5px 10px;
+            background-color: #0d9b19;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .upd-btn:hover {
+            background-color: #1ef71e;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            display: inline-block;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .remove-btn {
+            padding: 5px 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .create-btn {
+            padding: 10px 20px;
+            padding-left: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .create-btn:hover {
+            background-color: #218838;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            font-family: 'Arial', sans-serif;
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 50px;
+            border: 1px solid #888;
+            width: 20%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+        }
+
+        .modal-content input {
+            padding: 10px;
+            margin: 5px 0;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>College Bookstore</h1>
+            <nav>
+                <ul>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h2>Catalog</h2>
+            <table id="catalog">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="add-book">
+                <button class="create-btn">Create</button>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Create Book</h2>
+            <form id="book-form">
+                <label for="book-title">Title:</label>
+                <input type="text" id="book-title" name="book-title" required><br><br>
+                <label for="book-price">Price:</label>
+                <input type="number" id="book-price" name="book-price" required><br><br>
+                <button type="submit" id="modal-save-btn">Save</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const closeModal = document.getElementsByClassName('close')[0];
+            const createBtn = document.querySelector('.create-btn');
+            const bookForm = document.getElementById('book-form');
+            let currentBookIndex = -1;
+
+            let books = JSON.parse(localStorage.getItem('books')) || [
+                { title: "Book 1", price: 10 },
+                { title: "Book 2", price: 15 },
+                { title: "Book 3", price: 20 }
+            ];
+
+            function populateBooks() {
+                const catalog = document.getElementById("catalog").getElementsByTagName('tbody')[0];
+                catalog.innerHTML = ''; 
+                books.forEach((book, index) => {
+                    let row = document.createElement("tr");
+
+                    const title = document.createElement("td");
+                    title.textContent = book.title;
+                    row.appendChild(title);
+
+                    const price = document.createElement("td");
+                    price.textContent = book.price;
+                    row.appendChild(price);
+
+                    const actioncell = document.createElement("td");
+                    const button1 = document.createElement("button");
+                    button1.className = 'upd-btn';
+                    button1.textContent = 'Update';
+                    button1.onclick = () => {
+                        currentBookIndex = index;
+                        showModal('Update Book', book);
+                    };
+                    const button2 = document.createElement("button");
+                    button2.className = 'remove-btn';
+                    button2.textContent = 'Remove';
+                    button2.onclick = () => {
+                        books.splice(index, 1);
+                        localStorage.setItem('books', JSON.stringify(books));
+                        removeFromCart(book.title);
+                        populateBooks();
+                    };
+                    actioncell.appendChild(button1);
+                    actioncell.appendChild(button2);
+                    row.appendChild(actioncell);
+
+                    catalog.appendChild(row);
+                });
+            }
+
+            function showModal(title, book = { title: '', price: '' }) {
+                modalTitle.textContent = title;
+                document.getElementById('book-title').value = book.title;
+                document.getElementById('book-price').value = book.price;
+                modal.style.display = "block";
+            }
+
+            closeModal.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            createBtn.onclick = () => {
+                currentBookIndex = -1;
+                showModal('Create Book');
+            };
+
+            bookForm.onsubmit = function(event) {
+                event.preventDefault();
+                const title = document.getElementById('book-title').value;
+                const price = document.getElementById('book-price').value;
+                if (currentBookIndex === -1) {
+                    books.push({ title, price });
+                } else {
+                    let oldTitle = books[currentBookIndex].title;
+                    books[currentBookIndex] = { title, price };
+                    updateCart(oldTitle, title, price);
+                }
+                localStorage.setItem('books', JSON.stringify(books));
+                populateBooks();
+                modal.style.display = "none";
+            };
+
+            function removeFromCart(title) {
+                var cart = JSON.parse(localStorage.getItem('cart')) || {};
+                if (cart[title]) {
+                    delete cart[title];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                }
+            }
+
+            function updateCart(oldTitle, newTitle, newPrice) {
+                var cart = JSON.parse(localStorage.getItem('cart')) || {};
+                if (cart[oldTitle]) {
+                    cart[newTitle] = { ...cart[oldTitle], price: newPrice };
+                    if (oldTitle !== newTitle) {
+                        delete cart[oldTitle];
+                    }
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                }
+            }
+
+            populateBooks();
+        });
+    </script>
+   
+</body>
+</html>    

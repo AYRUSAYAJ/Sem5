@@ -121,7 +121,6 @@
             border-bottom: none;
         }
 
-        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -181,9 +180,6 @@
             <h1>College Bookstore</h1>
             <nav>
                 <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="catalog.html">Catalog</a></li>
-                    <li><a href="cart.html">Cart</a></li>
                     <li><a href="register.html">Register</a></li>
                 </ul>
             </nav>
@@ -212,7 +208,7 @@
         function validateForm() {
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
-            var namePattern = /^[A-Za-z]{6,}$/;
+            var namePattern = /^[A-Za-z]{5,}$/;
             
             if (!namePattern.test(username)) {
                 alert("Username should contain only alphabets and be at least 6 characters long.");
@@ -235,8 +231,12 @@
         }
 
         function redirectToHome() {
-            window.location.href = 'home.html';
+            var username = document.getElementById("username").value;
+            if (username.toLowerCase() === 'admin') {
+                window.location.href = 'admincatlog.html';
+            } else {
+                window.location.href = 'home.html';
+            }
         }
     </script>
 </body>
-</html>

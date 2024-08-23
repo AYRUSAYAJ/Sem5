@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>catlog - College Bookstore</title>
+    <title>Movie Booking</title>
     <style>
  body {
             font-family: 'Arial', sans-serif;
@@ -220,7 +220,7 @@ main h2 {
 <body>
     <div class="container">
         <header>
-            <h1>College Bookstore</h1>
+            <h1>Book Your Show</h1>
             <nav>
                 <ul>
                     <li><a href="login.html">Login</a></li>
@@ -232,7 +232,7 @@ main h2 {
             <table id="catalog">
                 <thead>
                     <tr>
-                        <th>Book</th>
+                        <th>Movie</th>
                         <th>Price</th>
                         <th>Action</th>
                     </tr>
@@ -269,9 +269,9 @@ main h2 {
             let currentBookIndex = -1;
 
             let books = JSON.parse(localStorage.getItem('books')) || [
-                { title: "Book 1", price: 10 },
-                { title: "Book 2", price: 15 },
-                { title: "Book 3", price: 20 }
+                { title: "Movie 1", price: 220 },
+                { title: "Movie 2", price: 230 },
+                { title: "Movie 3", price: 210 }
             ];
 
             function populateBooks() {

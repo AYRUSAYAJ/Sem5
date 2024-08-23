@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator with Memory</title>
+    <title>Calculator with Memory Modal</title>
     <style>
         body {
             display: flex;
@@ -83,13 +83,80 @@
         .memory-btn:active {
             background-color: #aaa;
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 300px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-btn:hover {
+            background-color: #555;
+        }
+
+        .modal-btn:active {
+            background-color: #666;
+        }
     </style>
 </head>
 <body>
     <div class="calculator">
         <div class="display" id="display">0</div>
         <div class="memory-buttons">
-            <button class="memory-btn" onclick="storeMemory()">M+</button>
+            <button class="memory-btn" onclick="openModal()">M+</button>
             <button class="memory-btn" onclick="recallMemory()">MR</button>
             <button class="memory-btn" onclick="clearMemory()">MC</button>
         </div>
@@ -115,6 +182,16 @@
             <button class="btn" onclick="appendValue('.')">.</button>
         </div>
     </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Enter a value to store in memory:</p>
+            <input type="number" id="memoryInput" class="modal-input" placeholder="Enter value">
+            <button class="modal-btn" onclick="storeMemory()">Store</button>
+        </div>
+    </div>
+
     <script>
         let memory = 0;
 
@@ -155,9 +232,23 @@
             }
         };
 
+        const openModal = () => {
+            document.getElementById('myModal').style.display = "block";
+        };
+
+        const closeModal = () => {
+            document.getElementById('myModal').style.display = "none";
+        };
+
         const storeMemory = () => {
-            const display = document.getElementById('display');
-            memory = parseFloat(display.innerText);
+            const input = document.getElementById('memoryInput').value;
+            if (input !== "" && !isNaN(input)) {
+                memory = parseFloat(input);
+                alert(`Value ${memory} stored in memory.`);
+                closeModal();
+            } else {
+                alert("Invalid input. Please enter a numeric value.");
+            }
         };
 
         const recallMemory = () => {
@@ -167,6 +258,14 @@
 
         const clearMemory = () => {
             memory = 0;
+            alert("Memory cleared.");
+        };
+
+        // Close modal if user clicks outside of it
+        window.onclick = event => {
+            if (event.target == document.getElementById('myModal')) {
+                closeModal();
+            }
         };
     </script>
 </body>
